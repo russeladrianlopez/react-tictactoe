@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// each square on the board
 function Square(props) {
     return (
         <button className="square" onClick={props.onClick}>
@@ -10,6 +11,7 @@ function Square(props) {
     );
 }
 
+// checks if a player has won
 function calculateWinner(squares) {
     const lines = [
         [0, 1, 2],
@@ -30,36 +32,37 @@ function calculateWinner(squares) {
     return null;
 }
 
+// whole board component
 class Board extends Component {
 
-    renderSquare(i) {
+    renderSquare(i, pos) {
         return (
-            <Square
+            <Square key={i}
             value={this.props.squares[i]}
-            onClick={() => this.props.onClick(i)}
+            onClick={() => this.props.onClick(i, pos)}
             />
         );
     }
 
     render() {
+        let count = 0;
+        let pos;
+        let rows = [];
+        for(let row=1; row<=3; row++){
+            let squares = [];
+            for(let col=1; col<=3; col++){
+                pos = {row: row, col: col}; // added an object to determine position
+                // creating squares
+                squares.push(this.renderSquare(count,pos));
+                count++;
+            }
+            // creating a row of 3 squares
+            rows.push(<div key={count} className="board-row">{squares}</div>);
+        }
         return (
             <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-          </div>
+                {rows}
+            </div>
         );
     }
 }
@@ -72,11 +75,13 @@ class Game extends Component {
                 squares: Array(9).fill(null),
             }],
             stepNumber: 0,
+            position: null,
             xIsNext: true,
         };
     }
 
-    handleClick(i){
+    // handles events after a square is clicked
+    handleClick(i,pos){
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
@@ -87,6 +92,7 @@ class Game extends Component {
         this.setState({
             history: history.concat([{
                 squares: squares,
+                position: { row: pos.row, col: pos.col},
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
@@ -99,8 +105,6 @@ class Game extends Component {
             xIsNext: (step % 2) === 0,
         });
     }
-
-
 
     render() {
         const history = this.state.history;
@@ -115,9 +119,12 @@ class Game extends Component {
         }
 
         const moves = history.map((step, move) => {
-            const desc = move ?
-                'Move #' + move :
-                'Game start';
+            let desc = 'Game start' // initial game start description
+            if (move){
+                const square = this.state.history[move].position;
+                const position = '(' + square.row + ', ' + square.col + ')';
+                desc = 'Move Position: #' + position; // description with each move done.
+            }
             return (
                 <li key={move}>
                     <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
@@ -135,7 +142,7 @@ class Game extends Component {
                     <div className="game-board">
                         <Board
                             squares={current.squares}
-                            onClick={(i) => this.handleClick(i)}
+                            onClick={(i, pos) => this.handleClick(i, pos)}
                         />
                     </div>
                     <div className="game-info">
