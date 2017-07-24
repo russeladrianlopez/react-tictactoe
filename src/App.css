@@ -44,6 +44,8 @@ ul {
 .game {
     display: flex;
     flex-direction: row;
+    margin-top: 20px;
+    justify-content: center;
 }
 
 .game-info {
