@@ -79,6 +79,7 @@ class Game extends Component {
             stepNumber: 0,
             position: null,
             xIsNext: true,
+            sortBy: 'asc',
         };
     }
 
@@ -105,6 +106,14 @@ class Game extends Component {
         this.setState({
             stepNumber: step,
             xIsNext: (step % 2) === 0,
+        });
+    }
+
+    // switches from sortBy value to ascending or descending
+    // 4. Add a toggle button that lets you sort the moves in either ascending or descending order.
+    toggleSort () {
+        this.setState({
+            sortBy: (this.state.sortBy === 'asc' ? 'desc' : 'asc')
         });
     }
 
@@ -142,6 +151,16 @@ class Game extends Component {
             );
         });
 
+        let order;
+        if (this.state.sortBy !== 'asc') {
+            moves.sort((a,b) => b.key - a.key);
+            order = 'Ascending';
+        } else {
+            order = 'Descending';
+        }
+
+
+
         return (
             <div className="App">
                 <div className="App-header">
@@ -157,6 +176,7 @@ class Game extends Component {
                     </div>
                     <div className="game-info">
                         <div>{status}</div>
+                        <a onClick={() => this.toggleSort()}>Change to {order}</a>
                         <ol>{moves}</ol>
                     </div>
                 </div>
