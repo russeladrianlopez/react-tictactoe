@@ -51,6 +51,13 @@ a:active {
     outline: none;
 }
 
+/* highlight squares that cause the win*/
+.square-win {
+    color: #7f0000;
+    border-color: #b20000;
+    border-width: 2px;
+}
+
 .kbd-navigation .square:focus {
     background: #ddd;
 }

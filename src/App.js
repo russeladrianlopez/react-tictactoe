@@ -5,7 +5,7 @@ import './App.css';
 // each square on the board
 function Square(props) {
     return (
-        <button className="square" onClick={props.onClick}>
+        <button className={props.class} onClick={props.onClick}>
         {props.value}
         </button>
     );
@@ -26,10 +26,10 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return { win: squares[a], line: [a, b, c] }; // passing the winning square and line
         }
     }
-    return null;
+    return { win: null, line: [null, null, null] };
 }
 
 // whole board component
@@ -37,8 +37,12 @@ class Board extends Component {
 
     renderSquare(i, pos) {
         return (
-            <Square key={i}
+            <Square
+            key={i}
             value={this.props.squares[i]}
+            // determines if the square is part of the winning line
+            // 5. When someone wins, highlight the three squares that caused the win.
+            class={this.props.winSquares.filter((x) => x === i).length > 0 ? "square square-win" : "square"}
             onClick={() => this.props.onClick(i, pos)}
             />
         );
@@ -88,7 +92,7 @@ class Game extends Component {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
+        if (calculateWinner(squares).win || squares[i]) {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -123,8 +127,8 @@ class Game extends Component {
         const winner = calculateWinner(current.squares);
 
         let status;
-        if (winner) {
-            status = 'Winner: ' + winner;
+        if (winner.win) {
+            status = 'Winner: ' + winner.win;
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
@@ -151,6 +155,7 @@ class Game extends Component {
             );
         });
 
+        // function to sort the list and text change.
         let order;
         if (this.state.sortBy !== 'asc') {
             moves.sort((a,b) => b.key - a.key);
@@ -171,6 +176,7 @@ class Game extends Component {
                     <div className="game-board">
                         <Board
                             squares={current.squares}
+                            winSquares={winner.line} // passes the line to be highlighted.
                             onClick={(i, pos) => this.handleClick(i, pos)}
                         />
                     </div>
