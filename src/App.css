@@ -1,3 +1,15 @@
+* {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
@@ -26,7 +38,9 @@ a:active {
     clear: both;
     content: "";
     display: table;
+    position: fixed;
 }
+
 
 .status {
     margin-bottom: 10px;
@@ -36,15 +50,15 @@ a:active {
     background: #fff;
     border: 1px solid #999;
     float: left;
-    font-size: 24px;
+    font-size: 32px;
     font-weight: bold;
     line-height: 34px;
-    height: 34px;
+    height: 82px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 34px;
+    width: 82px;
 }
 
 .square:focus {
@@ -69,6 +83,11 @@ a:active {
     justify-content: center;
 }
 
+.game-info {
+    margin-left: 20px;
+    height: auto;
+}
+
 /* make a selected item bold and unclickable */
 .selected {
     font-weight: bold;
@@ -78,12 +97,6 @@ a:active {
 .not-selected {
     font-weight: normal;
 }
-
-
-.game-info {
-    margin-left: 20px;
-}
-
 
 /* create app default header */
 
@@ -113,5 +126,21 @@ a:active {
     }
     to {
         transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    h2 {
+        font-size: small;
+    }
+    .game {
+        flex-flow: wrap;
+    }
+    .game {
+        width: 100%;
+    }
+    .game-info {
+        width: 80%;
+        margin-top: 20px;
     }
 }
