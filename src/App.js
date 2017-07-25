@@ -130,7 +130,12 @@ class Game extends Component {
         if (winner.win) {
             status = 'Winner: ' + winner.win;
         } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            // Added a draw status when game has no winner
+            if (this.state.stepNumber === 9 && !winner.win) {
+                status = "It's a Draw!";
+            } else {
+                status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            }
         }
 
         const moves = history.map((step, move) => {
