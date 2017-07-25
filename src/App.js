@@ -48,6 +48,8 @@ class Board extends Component {
         let count = 0;
         let pos;
         let rows = [];
+
+        // 3. Rewrite Board to use two loops to make the squares instead of hardcoding them.
         for(let row=1; row<=3; row++){
             let squares = [];
             for(let col=1; col<=3; col++){
@@ -122,10 +124,13 @@ class Game extends Component {
             let desc = 'Game start' // initial game start description
             let current;
             if (move){
+                // 1. Display the move locations in the format "(1, 3)" instead of "6".
                 const square = this.state.history[move].position;
                 const position = '(' + square.row + ', ' + square.col + ')';
                 desc = 'Move Position: #' + position; // description with each move done.
+
                 // set current the class of move item on the list.
+                // 2. Bold the currently-selected item in the move list.
                 current = (move === this.state.stepNumber ? 'selected' : 'not-selected' )
             }
 
