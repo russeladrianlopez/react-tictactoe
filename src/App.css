@@ -8,6 +8,20 @@ ul {
     padding-left: 30px;
 }
 
+a:link {
+    color: #1aa8a8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    color: #21d2d2;
+    text-decoration: underline;
+}
+
 .board-row:after {
     clear: both;
     content: "";
@@ -48,32 +62,49 @@ ul {
     justify-content: center;
 }
 
+/* make a selected item bold and unclickable */
+.selected {
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.not-selected {
+    font-weight: normal;
+}
+
+
 .game-info {
     margin-left: 20px;
 }
 
 
+/* create app default header */
+
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
 }
 
 .App-intro {
-  font-size: large;
+    font-size: large;
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

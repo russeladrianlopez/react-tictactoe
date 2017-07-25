@@ -120,14 +120,19 @@ class Game extends Component {
 
         const moves = history.map((step, move) => {
             let desc = 'Game start' // initial game start description
+            let current;
             if (move){
                 const square = this.state.history[move].position;
                 const position = '(' + square.row + ', ' + square.col + ')';
                 desc = 'Move Position: #' + position; // description with each move done.
+                // set current the class of move item on the list.
+                current = (move === this.state.stepNumber ? 'selected' : 'not-selected' )
             }
+
             return (
+                // move list
                 <li key={move}>
-                    <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
+                    <a href="#" className={current} onClick={() => this.jumpTo(move)}>{desc}</a>
                 </li>
             );
         });
